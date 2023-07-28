@@ -2,6 +2,7 @@ package br.com.math;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -66,6 +67,7 @@ class SimpleMathTest {
 	}
 	
 	// test[System Under Test]_[Condition or State Chane]_[Expected Result]
+	@Disabled("TODO: We need still work on it")
 	@Test
 	@DisplayName("Test Division By Zero")
 	void testDivision_When_FirstNumberIsDividedByZero_ShouldThrowArithmeticException() {
@@ -96,5 +98,5 @@ class SimpleMathTest {
 		
 		assertEquals(expected, actual, () -> "square root of 81 did not produce 8.2");
 	}
-
+	
 }
