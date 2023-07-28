@@ -2,12 +2,39 @@ package br.com.math;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Test Math Operations in SimpleMath Class")
 class SimpleMathTest {
+	
+	SimpleMath math;
+
+	
+	@BeforeAll
+	static void setup() {
+		System.out.println("Running @Beforeall");
+	}
+	
+	@AfterAll
+	static void cleanup() {
+		System.out.println("Running @Afterall");
+	}
+	
+	@BeforeEach
+	void beforeEachMethod() {
+		math = new SimpleMath();
+	}
+	
+	@AfterEach
+	void afterEachMethod() {
+		System.out.println("Running @AfterEach");
+	}
 
 	// test[System Under Test]_[Condition or State Chane][Expected Result]
 	@Test
@@ -15,7 +42,6 @@ class SimpleMathTest {
 	void testSum_When_SixDotTwoIsAddedByTwo_ShouldReturnEightDotTwo() {
 		// AAA Arrange, Act, Assert
 		// given / Arrange
-		SimpleMath math = new SimpleMath();
 		double firstNumber = 6.2D;
 		double secondNumber = 2D;
 		double expected = 8.2D;
@@ -30,7 +56,6 @@ class SimpleMathTest {
 	@Test
 	@DisplayName("Test 6.2 - 2 = 4.2")
 	void testSubtraction() {
-		SimpleMath math = new SimpleMath();
 		double firstNumber = 6.2D;
 		double secondNumber = 2D;
 		
@@ -43,7 +68,6 @@ class SimpleMathTest {
 	@Test
 	@DisplayName("Test 6.2 * 2 = 12.4")
 	void testMultiplication() {
-		SimpleMath math = new SimpleMath();
 		double firstNumber = 6.2D;
 		double secondNumber = 2D;
 		
@@ -56,7 +80,6 @@ class SimpleMathTest {
 	@Test
 	@DisplayName("Test 6.2 / 2 = 3.1")
 	void testDivision() {
-		SimpleMath math = new SimpleMath();
 		double firstNumber = 6.2D;
 		double secondNumber = 2D;
 		
@@ -77,7 +100,6 @@ class SimpleMathTest {
 	@Test
 	@DisplayName("Test (6.2 + 2)/2 = 4.1")
 	void testMean() {
-		SimpleMath math = new SimpleMath();
 		double firstNumber = 6.2D;
 		double secondNumber = 2D;
 		
@@ -90,7 +112,6 @@ class SimpleMathTest {
 	@Test
 	@DisplayName("Test Square root of 81 = 9")
 	void testSquareRoot() {
-		SimpleMath math = new SimpleMath();
 		double number = 81D;
 		double expected = 9D;
 		
