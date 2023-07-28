@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 @DisplayName("Test Math Operations in SimpleMath Class")
 class SimpleMathTestS4 {
@@ -19,11 +19,7 @@ class SimpleMathTestS4 {
 	
 	@DisplayName("Test 6.2 / 2 = 3.1")
 	@ParameterizedTest
-	@CsvSource({
-		"6.2, 2, 3.1",
-		"71, 14, 5.07",
-		"18.3, 3.1, 5.90"
-	})
+	@CsvFileSource(resources = "/testDivision.csv")
 	void testDivision(double firstNumber,double secondNumber, double expected ) {
 		
 		System.out.println("Test "+firstNumber+"/"+secondNumber+" = "+expected);
