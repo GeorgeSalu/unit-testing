@@ -1,12 +1,12 @@
 package br.com.math;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -90,11 +90,21 @@ class SimpleMathTest {
 	}
 	
 	// test[System Under Test]_[Condition or State Chane]_[Expected Result]
-	@Disabled("TODO: We need still work on it")
+	//@Disabled("TODO: We need still work on it")
 	@Test
 	@DisplayName("Test Division By Zero")
 	void testDivision_When_FirstNumberIsDividedByZero_ShouldThrowArithmeticException() {
-		fail();
+		// given
+		double firstNumber = 6.2D;
+		double secondNumber = 0D;
+		
+		var expectedMessage = "impossible to divide by zero";
+		
+		// when & then 
+		ArithmeticException actual = assertThrows(ArithmeticException.class, () -> {
+			math.division(firstNumber, secondNumber);
+		});
+		assertEquals(expectedMessage, actual.getMessage());
 	}
 	
 	@Test
