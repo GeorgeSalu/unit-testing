@@ -24,7 +24,23 @@ public class PersonServiceTest {
 		
 		// Then / Assert
 		assertNotNull(actual,() -> "the createPerson() should not have returned null");
-		
 	}
+
+	@Test
+	@DisplayName("When create a person with sucess should contains firstName in returned person object")
+	void testCreatePerson_WhenSucess_ShouldContainsFirstNameInReturnedPersonObject() {
+		// Given / Arrange
+		IPersonService service = new PersonService();
+		
+		Person person = new Person("keith", "Moon", "kmoon@gmail.com", "uk", "male");
+		
+		// When / Act
+		Person actual = service.createPerson(person);
+		
+		// Then / Assert
+		assertNotNull(actual,() -> "the createPerson() should not have returned null");
+		assertEquals(person.getFirstName(), actual.getFirstName(), () -> "The firstName is diferrent");
+	}
+
 	
 }
