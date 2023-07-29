@@ -58,15 +58,19 @@ public class PersonServiceTest {
 		IPersonService service = new PersonService();
 		person.setEmail(null);
 		
+		var expectedMessage = "the person email is null or empty";
+		
 		// When / Act
 
 		// Then / Assert
 		
-		assertThrows(
+		IllegalArgumentException exception = assertThrows(
 				IllegalArgumentException.class, 
 				() -> service.createPerson(person),
 				() -> "empty email should have cause an illegalArgumentException"
 		);
+		
+		assertEquals(expectedMessage, exception.getMessage(), () -> "Exception error messagem incorrect");
 	}
 	
 }
