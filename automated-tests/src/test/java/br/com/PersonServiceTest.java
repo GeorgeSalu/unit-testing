@@ -2,6 +2,7 @@ package br.com;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,13 +12,18 @@ import br.com.service.PersonService;
 
 public class PersonServiceTest {
 
+	Person person;
+	
+	@BeforeEach
+	void setup() {
+		person = new Person("keith", "Moon", "kmoon@gmail.com", "uk", "male");
+	}
+	
 	@Test
 	@DisplayName("When create a person with sucess should return a person object")
 	void testCreatePerson_WhenSucess_ShouldReturnPersonObject() {
 		// Given / Arrange
 		IPersonService service = new PersonService();
-		
-		Person person = new Person("keith", "Moon", "kmoon@gmail.com", "uk", "male");
 		
 		// When / Act
 		Person actual = service.createPerson(person);
@@ -31,8 +37,6 @@ public class PersonServiceTest {
 	void testCreatePerson_WhenSucess_ShouldContainsFirstNameInReturnedPersonObject() {
 		// Given / Arrange
 		IPersonService service = new PersonService();
-		
-		Person person = new Person("keith", "Moon", "kmoon@gmail.com", "uk", "male");
 		
 		// When / Act
 		Person actual = service.createPerson(person);
