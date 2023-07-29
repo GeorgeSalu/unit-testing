@@ -1,4 +1,4 @@
-package br.com;
+package br.com.business;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,7 @@ public class CourseBusiness {
 	
 	public List<String> retrieveCoursesRelatedToSpring(String student) {
 		var filteredCourses = new ArrayList<String>();
+		if("Foo Bar".equals(student)) return filteredCourses;
 		var allCourses = service.retrieveCourse(student);
 		
 		for (String course : allCourses) {
