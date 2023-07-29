@@ -42,6 +42,7 @@ public class PersonServiceTest {
 		Person actual = service.createPerson(person);
 		
 		// Then / Assert
+		assertNotNull(person.getId(), () -> "person id is missing");
 		assertEquals(person.getFirstName(), actual.getFirstName(), () -> "The firstName is diferrent");
 		assertEquals(person.getLastName(), actual.getLastName(), () -> "The lastName is diferrent");
 		assertEquals(person.getAddress(), actual.getAddress(), () -> "The Address is diferrent");
