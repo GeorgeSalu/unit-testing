@@ -62,4 +62,12 @@ public class SpyTest {
 		verify(spyArrayList).add("Foo-Bar");
 	}
 	
+	@Test
+	void testV5() {
+		List<String> spyArrayList = spy(ArrayList.class);
+		spyArrayList.add("Foo-Bar");
+		
+		verify(spyArrayList).add("Foo-Bar");
+	}
+	
 }
