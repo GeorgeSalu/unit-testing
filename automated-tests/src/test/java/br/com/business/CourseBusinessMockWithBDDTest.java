@@ -3,6 +3,7 @@ package br.com.business;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -67,6 +68,20 @@ class CourseBusinessMockWithBDDTest {
 		// Then / Assert
 		verify(mockService, times(1)).deleteCourse("Agile Desmistificado com Scrum, XP, Kanban e Trello");
 		verify(mockService, never()).deleteCourse("REST API's RESTFul do 0 à AWS com Spring Boot 3 Java e Docker");
+	}
+	
+	@Test
+	@DisplayName("Delete courses not releted to spring using mockito sould call method V2")
+	void testDeleteCoursesNotReletedToSpring_Using_mockito_verifiedV2() {
+		// Given / Arrange
+		given(mockService.retrieveCourse("Leandro")).willReturn(courses);
+		// When / Act
+		business.deleteCoursesNotRelatedToSpring("Leandro");
+		
+		// Then / Assert
+		
+		then(mockService).should().deleteCourse("Agile Desmistificado com Scrum, XP, Kanban e Trello");
+		then(mockService).should(never()).deleteCourse("REST API's RESTFul do 0 à AWS com Spring Boot 3 Java e Docker");
 	}
 
 }
