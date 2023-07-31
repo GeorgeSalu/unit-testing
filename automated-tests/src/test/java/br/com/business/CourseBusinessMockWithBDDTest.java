@@ -4,11 +4,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import br.com.service.CourseService;
@@ -50,6 +54,19 @@ class CourseBusinessMockWithBDDTest {
 		
 		// Then / Assert
 		assertThat(filteredCourses.size(), is(4));
+	}
+	
+	@Test
+	@DisplayName("Delete courses not releted to spring using mockito sould call method")
+	void testDeleteCoursesNotReletedToSpring_Using_mockito_verified() {
+		// Given / Arrange
+		given(mockService.retrieveCourse("Leandro")).willReturn(courses);
+		// When / Act
+		business.deleteCoursesNotRelatedToSpring("Leandro");
+		
+		// Then / Assert
+		verify(mockService, times(1)).deleteCourse("Agile Desmistificado com Scrum, XP, Kanban e Trello");
+		verify(mockService, never()).deleteCourse("REST API's RESTFul do 0 à AWS com Spring Boot 3 Java e Docker");
 	}
 
 }
