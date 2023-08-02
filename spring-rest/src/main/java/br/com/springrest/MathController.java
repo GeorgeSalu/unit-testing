@@ -10,7 +10,7 @@ public class MathController {
 
 	@RequestMapping(value = "/sum/{numberOne}/{numberTwo}", method = RequestMethod.GET)
 	public Double greeting(@PathVariable(value = "numberOne") String numberOne,@PathVariable(value = "numberTwo") String numberTwo) throws Exception {
-		if(isNumeric(numberOne) || isNumeric(numberTwo)) {
+		if(!isNumeric(numberOne) || !isNumeric(numberTwo)) {
 			throw new Exception();
 		}
 		
@@ -18,13 +18,16 @@ public class MathController {
 	}
 
 	private Double convertToDouble(String numberOne) {
-		// TODO Auto-generated method stub
-		return null;
+		if(numberOne == null) return 0D;
+		String number = numberOne.replaceAll(",", ".");
+		if(isNumeric(numberOne)) return Double.parseDouble(number);
+		return 0D;
 	}
 
 	private boolean isNumeric(String numberOne) {
-		// TODO Auto-generated method stub
-		return false;
+		if(numberOne == null) return false;
+		String number = numberOne.replaceAll(",",".");
+		return number.matches("[-+]?[0-9]*\\.?[0-9]+");
 	}
 	
 }
