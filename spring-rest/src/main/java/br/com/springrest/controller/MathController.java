@@ -1,4 +1,4 @@
-package br.com.springrest;
+package br.com.springrest.controller;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
