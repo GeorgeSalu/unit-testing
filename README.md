@@ -1,3 +1,3 @@
 ## unit testing
 
-Repositorio com projetos explorando ferramentas de teste de software
+Repositório com projetos java explorando ferramentas de teste de software

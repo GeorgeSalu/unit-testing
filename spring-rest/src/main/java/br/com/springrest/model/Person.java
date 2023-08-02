@@ -3,6 +3,11 @@ package br.com.springrest.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "person")
 public class Person implements Serializable {
 
 	private static final long serialVersionUID = 1L;
