@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.springrest.converters.NumberConverter;
-import br.com.springrest.exceptions.UnsuportedMathOperationException;
+import br.com.springrest.exceptions.UnsupportedMathOperationException;
 import br.com.springrest.math.SimpleMath;
 
 @RestController
@@ -22,7 +22,7 @@ public class MathController {
 		) throws Exception{
 		
 		if(!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo)) {
-			throw new UnsuportedMathOperationException("Please set a numeric value!");
+			throw new UnsupportedMathOperationException("Please set a numeric value!");
 		}
 		return math.sum(NumberConverter.convertToDouble(numberOne), NumberConverter.convertToDouble(numberTwo));
 	}
@@ -35,7 +35,7 @@ public class MathController {
 			) throws Exception{
 		
 		if(!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo)) {
-			throw new UnsuportedMathOperationException("Please set a numeric value!");
+			throw new UnsupportedMathOperationException("Please set a numeric value!");
 		}
 		return math.subtraction(NumberConverter.convertToDouble(numberOne), NumberConverter.convertToDouble(numberTwo));
 	}
@@ -48,7 +48,7 @@ public class MathController {
 			) throws Exception{
 		
 		if(!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo)) {
-			throw new UnsuportedMathOperationException("Please set a numeric value!");
+			throw new UnsupportedMathOperationException("Please set a numeric value!");
 		}
 		return math.multiplication(NumberConverter.convertToDouble(numberOne), NumberConverter.convertToDouble(numberTwo));
 	}
@@ -61,7 +61,7 @@ public class MathController {
 			) throws Exception{
 		
 		if(!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo)) {
-			throw new UnsuportedMathOperationException("Please set a numeric value!");
+			throw new UnsupportedMathOperationException("Please set a numeric value!");
 		}
 		return math.division(NumberConverter.convertToDouble(numberOne), NumberConverter.convertToDouble(numberTwo));
 	}
@@ -74,7 +74,7 @@ public class MathController {
 		) throws Exception{
 		
 		if(!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo)) {
-			throw new UnsuportedMathOperationException("Please set a numeric value!");
+			throw new UnsupportedMathOperationException("Please set a numeric value!");
 		}
 		return math.mean(NumberConverter.convertToDouble(numberOne), NumberConverter.convertToDouble(numberTwo));
 	}
@@ -86,7 +86,7 @@ public class MathController {
 			) throws Exception{
 		
 		if(!NumberConverter.isNumeric(number)) {
-			throw new UnsuportedMathOperationException("Please set a numeric value!");
+			throw new UnsupportedMathOperationException("Please set a numeric value!");
 		}
 		return math.squareRoot(NumberConverter.convertToDouble(number));
 	}

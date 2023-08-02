@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-public class UnsuportedMathOperationException extends RuntimeException {
+public class UnsupportedMathOperationException extends RuntimeException {
 
-	public UnsuportedMathOperationException(String ex) {
+	public UnsupportedMathOperationException(String ex) {
 		super(ex);
 	}
 
