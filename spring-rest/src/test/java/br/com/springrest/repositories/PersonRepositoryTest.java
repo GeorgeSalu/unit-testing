@@ -1,7 +1,10 @@
 package br.com.springrest.repositories;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +17,7 @@ import br.com.springrest.model.Person;
 public class PersonRepositoryTest {
 
 	@Autowired
-	private PersonRepository repositories;
+	private PersonRepository repository;
 	
 	@Test
 	@DisplayName("Given Person Object When Save then Returns Saved Person")
@@ -23,11 +26,29 @@ public class PersonRepositoryTest {
 		Person person0 = new Person("Leandro", "costa", "leandro@gmail.com.br", "uberlandia", "male");
 		
 		// When / Act
-		Person savedPerson = repositories.save(person0);
+		Person savedPerson = repository.save(person0);
 		
 		// Then / Assert
 		assertNotNull(savedPerson);
 		assertTrue(savedPerson.getId() > 0);
+	}
+	
+	@Test
+	@DisplayName("Given Person List When FindAll then Returns Person List")
+	void testGivenPersonList_WhenFindAll_thenReturnsPersonList() {
+		// Given / Arrange
+		Person person0 = new Person("Leandro", "costa", "leandro@gmail.com.br", "uberlandia", "male");
+		Person person1 = new Person("Leonardo", "costa", "leandro@gmail.com.br", "uberlandia", "male");
+		
+		repository.save(person0);
+		repository.save(person1);
+		
+		// When / Act
+		List<Person> personList = repository.findAll();
+		
+		// Then / Assert
+		assertNotNull(personList);
+		assertEquals(2, personList.size());
 	}
 	
 }
