@@ -83,4 +83,24 @@ public class PersonRepositoryTest {
 		assertEquals(person0.getId(), savedPerson.getId());
 	}
 	
+	@Test
+	@DisplayName("Given Person Object When Update Person then Return Update Person Object")
+	void testGivenPersonObject_WhenUpdatePerson_thenReturnUpdatePersonObject() {
+		// Given / Arrange
+		Person person0 = new Person("Leandro", "costa", "leandro@gmail.com.br", "uberlandia", "male");
+		
+		repository.save(person0);
+		
+		// When / Act
+		Person savedPerson = repository.findById(person0.getId()).get();
+		savedPerson.setFirstName("Leonardo");
+		savedPerson.setEmail("leonardo@gmail.com.br");
+		
+		
+		Person updatedPerson = repository.save(savedPerson);
+		// Then / Assert
+		assertNotNull(updatedPerson);
+		assertEquals("Leonardo", updatedPerson.getFirstName());
+	}
+	
 }
