@@ -14,7 +14,7 @@ import br.com.springrest.model.Person;
 public class PersonRepositoryTest {
 
 	@Autowired
-	private PersonRepositories repositories;
+	private PersonRepository repositories;
 	
 	@Test
 	@DisplayName("Given Person Object When Save then Returns Saved Person")

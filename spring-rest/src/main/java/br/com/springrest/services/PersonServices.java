@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.springrest.exceptions.ResourceNotFoundException;
 import br.com.springrest.model.Person;
-import br.com.springrest.repositories.PersonRepositories;
+import br.com.springrest.repositories.PersonRepository;
 
 @Service
 public class PersonServices {
@@ -16,7 +16,7 @@ public class PersonServices {
 	private Logger logger = Logger.getLogger(PersonServices.class.getName());
 	
 	@Autowired
-	PersonRepositories repositorie;
+	PersonRepository repositorie;
 
 	public List<Person> findAll() {
 		return repositorie.findAll();
