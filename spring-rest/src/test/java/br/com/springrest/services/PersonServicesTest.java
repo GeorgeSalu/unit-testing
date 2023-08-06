@@ -2,8 +2,12 @@ package br.com.springrest.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 import java.util.Optional;
 
@@ -15,6 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import br.com.springrest.exceptions.ResourceNotFoundException;
 import br.com.springrest.model.Person;
 import br.com.springrest.repositories.PersonRepository;
 
@@ -48,6 +53,21 @@ public class PersonServicesTest {
 		// Then / Assert
 		assertNotNull(savedPerson);
 		assertEquals("Leandro",savedPerson.getFirstName());
+	}
+	
+	@Test
+	@DisplayName("JUnit test Given Existing Email When Save Person then Throws Exception")
+	void testGivenExistingEmail_WhenSavePerson_thenThrowsException() {
+		// Given / Arrange
+		given(repository.findByEmail(anyString())).willReturn(Optional.of(person0));
+
+		// When / Act
+		assertThrows(ResourceNotFoundException.class, () -> {
+			services.create(person0);
+		});
+		
+		// Then / Assert
+		verify(repository, never()).save(any(Person.class));
 	}
 	
 }
