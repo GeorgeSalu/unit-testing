@@ -70,4 +70,25 @@ public class PersonControllerTest {
             .andExpect(jsonPath("$.email", is(person.getEmail())));
     }
 	
+	@Test
+    @DisplayName("JUnit test for Given List Of Persons When FindAll Persons then Return Persons List")
+    void testGivenListOfPersons_WhenFindAllPersons_thenReturnPersonsList() throws JsonProcessingException, Exception {
+        
+        // Given / Arrange
+		List<Person> persons = new ArrayList<>();
+		persons.add(person);
+		persons.add(new Person("Leonardo", "costa", "leandro@gmail.com.br", "uberlandia", "male"));
+		
+        given(service.findAll()).willReturn(persons);
+        
+        // When / Act
+        ResultActions response = mockMvc.perform(get("/person"));
+        
+        // Then / Assert
+        response.
+        	andExpect(status().isOk())
+        	.andDo(print()) 
+            .andExpect(jsonPath("$.size()", is(persons.size())));
+    }
+	
 }
