@@ -3,12 +3,14 @@ package br.com.springrest.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,6 +87,20 @@ public class PersonServicesTest {
 		// Then / Assert
 		assertNotNull(personsList);
 		assertEquals(2, personsList.size());
+	}
+
+	@Test
+	@DisplayName("JUnit test Given Empty Persons List When FindAll Persons then Return Empty Persons List")
+	void testGivenEmptyPersonsList_WhenFindAllPersons_thenReturnEmptyPersonsList() {
+		// Given / Arrange
+		given(repository.findAll()).willReturn(Collections.emptyList());
+
+		// When / Act
+		List<Person> personsList = services.findAll();
+		
+		// Then / Assert
+		assertTrue(personsList.isEmpty());
+		assertEquals(0, personsList.size());
 	}
 	
 }
