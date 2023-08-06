@@ -91,4 +91,25 @@ public class PersonControllerTest {
             .andExpect(jsonPath("$.size()", is(persons.size())));
     }
 	
+	@Test
+    @DisplayName("JUnit test for Given PersonId When FindById then Return Persons Object")
+    void testGivenPersonId_WhenFindById_thenReturnPersonsObject() throws JsonProcessingException, Exception {
+        
+        // Given / Arrange
+		long personId = 1l;
+		
+        given(service.findById(personId)).willReturn(person);
+        
+        // When / Act
+        ResultActions response = mockMvc.perform(get("/person/{id}", personId));
+        
+        // Then / Assert
+        response.
+        	andExpect(status().isOk())
+        	.andDo(print()) 
+        	.andExpect(jsonPath("$.firstName", is(person.getFirstName())))
+            .andExpect(jsonPath("$.lastName", is(person.getLastName())))
+            .andExpect(jsonPath("$.email", is(person.getEmail())));
+    }
+	
 }
