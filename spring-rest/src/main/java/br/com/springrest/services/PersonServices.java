@@ -17,49 +17,49 @@ public class PersonServices {
 	private Logger logger = Logger.getLogger(PersonServices.class.getName());
 	
 	@Autowired
-	PersonRepository repositorie;
+	PersonRepository repository;
 
 	public List<Person> findAll() {
-		return repositorie.findAll();
+		return repository.findAll();
 	}
 
 	public Person findById(Long id) {
 		
 		logger.info("Finding one person!");
 		
-		return repositorie.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this is"));
+		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this is"));
 	}
 	
 	public Person create(Person person) {
 
 		logger.info("Creating one person!");
 		
-		Optional<Person> savedPerson = repositorie.findByEmail(person.getEmail());
+		Optional<Person> savedPerson = repository.findByEmail(person.getEmail());
 		if(savedPerson.isPresent()) {
 			throw new ResourceNotFoundException("Person already exist with given e-amil "+person.getEmail());
 		}
-		return repositorie.save(person);
+		return repository.save(person);
 	}
 	
 	public Person update(Person person) {
 		
 		logger.info("Updating one person!");
-		var entity = repositorie.findById(person.getId()).orElseThrow(() -> new ResourceNotFoundException("No records found for this is"));
+		var entity = repository.findById(person.getId()).orElseThrow(() -> new ResourceNotFoundException("No records found for this is"));
 		
 		entity.setFirstName(person.getFirstName());
 		entity.setLastName(person.getLastName());
 		entity.setAddress(person.getAddress());
 		entity.setGender(person.getGender());
 		
-		return repositorie.save(person);
+		return repository.save(person);
 	}
 	
 	public void delete(Long id) {
 		
 		logger.info("Deleting one person!");
 		
-		var entity = repositorie.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this is"));
-		repositorie.delete(entity);
+		var entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this is"));
+		repository.delete(entity);
 	}
 	
 }
