@@ -4,7 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -128,6 +128,37 @@ public class PersonControllerTest {
         response.
         	andExpect(status().isNotFound())
         	.andDo(print());
+    }
+	
+	@Test
+    @DisplayName("JUnit test for Given Updated Person when Update then Return Updated Person Object")
+    void testGivenUpdatedPerson_WhenUpdate_thenReturnUpdatedPersonObject() throws JsonProcessingException, Exception {
+        
+        // Given / Arrange
+        long personId = 1L;
+        given(service.findById(personId)).willReturn(person);
+        given(service.update(any(Person.class)))
+            .willAnswer((invocation) -> invocation.getArgument(0));
+        
+        // When / Act
+        Person updatedPerson = new Person(
+                "Leonardo",
+                "Costa",
+                "leonardo@erudio.com.br",
+                "Uberlândia - Minas Gerais - Brasil",
+                "Male");
+        
+        ResultActions response = mockMvc.perform(put("/person")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(updatedPerson)));
+        
+        // Then / Assert
+        response.
+            andExpect(status().isOk())
+            .andDo(print())
+            .andExpect(jsonPath("$.firstName", is(updatedPerson.getFirstName())))
+            .andExpect(jsonPath("$.lastName", is(updatedPerson.getLastName())))
+            .andExpect(jsonPath("$.email", is(updatedPerson.getEmail())));
     }
 	
 }
