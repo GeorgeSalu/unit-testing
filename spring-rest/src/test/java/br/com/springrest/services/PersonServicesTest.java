@@ -9,6 +9,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -68,6 +69,22 @@ public class PersonServicesTest {
 		
 		// Then / Assert
 		verify(repository, never()).save(any(Person.class));
+	}
+	
+	@Test
+	@DisplayName("JUnit test Given Persons List When FindAll Persons then Return Persons List")
+	void testGivenPersonsList_WhenFindAllPersons_thenReturnPersonsList() {
+		// Given / Arrange
+		Person person1 = new Person("Leonardo", "costa", "leandro@gmail.com.br", "uberlandia", "male");
+		
+		given(repository.findAll()).willReturn(List.of(person0, person1));
+
+		// When / Act
+		List<Person> personsList = services.findAll();
+		
+		// Then / Assert
+		assertNotNull(personsList);
+		assertEquals(2, personsList.size());
 	}
 	
 }
