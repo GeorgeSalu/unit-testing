@@ -116,4 +116,27 @@ public class PersonServicesTest {
 		assertNotNull(savedPerson);
 		assertEquals("Leandro",savedPerson.getFirstName());
 	}
+	
+	
+	@Test
+	@DisplayName("JUnit test Given Person Object When Update Person then Return Update Person Object")
+	void testGivenPersonObject_WhenUpdatePerson_thenReturnUpdatePersonObject() {
+		// Given / Arrange
+		person0.setId(1L);
+		given(repository.findById(anyLong())).willReturn(Optional.of(person0));
+		
+		person0.setFirstName("Leonardo");
+		person0.setEmail("leonardo@teste.com.br");
+		
+		given(repository.save(person0)).willReturn(person0);
+		
+		// When / Act
+		Person updatedPerson = services.update(person0);
+		
+		// Then / Assert
+		assertNotNull(updatedPerson);
+		assertEquals("Leonardo",updatedPerson.getFirstName());
+		assertEquals("leonardo@teste.com.br",updatedPerson.getEmail());
+		
+	}
 }
