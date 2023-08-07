@@ -5,6 +5,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -166,6 +169,76 @@ class PersonControllerIntegrationTest extends AbstractIntegrationTest {
         assertEquals("Uberlândia - Minas Gerais - Brasil", foundPerson.getAddress());
         assertEquals("Male", foundPerson.getGender());
         assertEquals("leonardo@erudio.com.br", foundPerson.getEmail());
+    }
+    
+    @Test
+    @Order(4)
+    @DisplayName("JUnit integration given Person Object when findAll should Return a Persons List")
+    void integrationTest_when_findAll_ShouldReturnAPersonsList() throws JsonMappingException, JsonProcessingException {
+        
+        Person anotherPerson = new Person(
+                "Gabriela",
+                "Rodriguez",
+                "gabi@erudio.com.br",
+                "Uberlândia - Minas Gerais - Brasil",
+                "Female"
+            );
+        
+        given().spec(specification)
+            .contentType(TestConfigs.CONTENT_TYPE_JSON)
+            .body(anotherPerson)
+        .when()
+            .post()
+        .then()
+            .statusCode(200);
+        
+        var content = given().spec(specification)
+                .when()
+                    .get()
+                .then()
+                    .statusCode(200)
+                .extract()
+                    .body()
+                        .asString();
+        
+        Person[] myArray = objectMapper.readValue(content, Person[].class);
+        List<Person> people = Arrays.asList(myArray);
+        
+        Person foundPersonOne = people.get(0);
+        
+        assertNotNull(foundPersonOne);
+        
+        assertNotNull(foundPersonOne.getId());
+        assertNotNull(foundPersonOne.getFirstName());
+        assertNotNull(foundPersonOne.getLastName());
+        assertNotNull(foundPersonOne.getAddress());
+        assertNotNull(foundPersonOne.getGender());
+        assertNotNull(foundPersonOne.getEmail());
+        
+        assertTrue(foundPersonOne.getId() > 0);
+        assertEquals("Leonardo", foundPersonOne.getFirstName());
+        assertEquals("Costa", foundPersonOne.getLastName());
+        assertEquals("Uberlândia - Minas Gerais - Brasil", foundPersonOne.getAddress());
+        assertEquals("Male", foundPersonOne.getGender());
+        assertEquals("leonardo@erudio.com.br", foundPersonOne.getEmail());
+        
+        Person foundPersonTwo = people.get(1);
+        
+        assertNotNull(foundPersonTwo);
+        
+        assertNotNull(foundPersonTwo.getId());
+        assertNotNull(foundPersonTwo.getFirstName());
+        assertNotNull(foundPersonTwo.getLastName());
+        assertNotNull(foundPersonTwo.getAddress());
+        assertNotNull(foundPersonTwo.getGender());
+        assertNotNull(foundPersonTwo.getEmail());
+        
+        assertTrue(foundPersonTwo.getId() > 0);
+        assertEquals("Gabriela", foundPersonTwo.getFirstName());
+        assertEquals("Rodriguez", foundPersonTwo.getLastName());
+        assertEquals("Uberlândia - Minas Gerais - Brasil", foundPersonTwo.getAddress());
+        assertEquals("Female", foundPersonTwo.getGender());
+        assertEquals("gabi@erudio.com.br", foundPersonTwo.getEmail());
     }
 
 }
