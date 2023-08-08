@@ -1,6 +1,7 @@
 package br.com.barriga.domain;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static br.com.barriga.domain.builders.UsuarioBuilder.umUsuario;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +15,7 @@ public class UsuarioTest {
 	@Test
 	void deveCriarUsuarioValido() {
 		
-		Usuario usuario = new Usuario(1l, "usuario valido", "user@gmail.com", "1234");
+		Usuario usuario = umUsuario().agora();
 		
 		Assertions.assertAll("Usuario", 
 				() -> assertEquals(1l, usuario.id()),				
@@ -27,7 +28,7 @@ public class UsuarioTest {
 	@Test
 	public void deveRejeitarUsaurioSemNome() {
 		ValidationException ex = Assertions.assertThrows(ValidationException.class, () -> {			
-			new Usuario(1l, null, "usuario@gmail.com", "1234");
+			umUsuario().comNome(null).agora();
 		});
 		
 		assertEquals("Nome é obrigatorio", ex.getMessage());
