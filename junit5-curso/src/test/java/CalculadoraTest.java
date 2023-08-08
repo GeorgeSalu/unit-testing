@@ -6,11 +6,12 @@ import org.junit.jupiter.api.Test;
 
 public class CalculadoraTest {
 	
+	Calculadora calc = new Calculadora();
+	
 	@Test
 	public void somar() {
-		Calculadora calculadora = new Calculadora();
-		Assertions.assertTrue(calculadora.soma(2, 7) == 9);
-		Assertions.assertEquals(5, calculadora.soma(2, 3));
+		Assertions.assertTrue(calc.soma(2, 7) == 9);
+		Assertions.assertEquals(5, calc.soma(2, 3));
 	}
 	
 	@Test
@@ -33,7 +34,6 @@ public class CalculadoraTest {
 	
 	@Test
 	public void deveRetornarNumeroInteiroNaDivisao() {
-		Calculadora calc = new Calculadora();
 		float resultado = calc.dividir(6, 2);
 		
 		Assertions.assertEquals(3, resultado);
@@ -41,7 +41,6 @@ public class CalculadoraTest {
 	
 	@Test
 	public void deveRetornarNumeroNegativoNaDivisao() {
-		Calculadora calc = new Calculadora();
 		float resultado = calc.dividir(6, -2);
 		
 		Assertions.assertEquals(-3, resultado);
@@ -49,7 +48,6 @@ public class CalculadoraTest {
 	
 	@Test
 	public void deveRetornarNumeroDecimalNaDivisao() {
-		Calculadora calc = new Calculadora();
 		float resultado = calc.dividir(10, 3);
 		
 		Assertions.assertEquals(3.33, resultado, 0.01);
@@ -57,7 +55,6 @@ public class CalculadoraTest {
 	
 	@Test
 	public void deveRetornarZeroComNumeradorZeroNaDivisao() {
-		Calculadora calc = new Calculadora();
 		float resultado = calc.dividir(0, 3);
 		
 		Assertions.assertEquals(0, resultado);
