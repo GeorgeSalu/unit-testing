@@ -1,15 +1,36 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CalculadoraTest {
 	
-	Calculadora calc = new Calculadora();
+	private static Calculadora calc;
+	private static int contador = 0;
+	
+	@BeforeEach
+	public void setup() {
+		System.out.println("--- deforeEach ---");
+	}
+	
+	@AfterEach
+	public void teardown() {
+		System.out.println("--- afterEach ---");
+	}
+	
+	@BeforeAll
+	public static void setupAll() {
+		System.out.println("--- beforeAll ---");
+		calc = new Calculadora();
+	}
 	
 	@Test
 	public void somar() {
+		System.out.println(++contador);
 		Assertions.assertTrue(calc.soma(2, 7) == 9);
 		Assertions.assertEquals(5, calc.soma(2, 3));
 	}
