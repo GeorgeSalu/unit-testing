@@ -63,5 +63,23 @@ public class CalculadoraTest {
 		Assertions.assertEquals(0, resultado);
 	}
 	
+	@Test
+	public void deveLancarExcecaoQuandoDividirPorZero_Junit4() {
+		try {
+			float resultado = 10/0;
+			Assertions.fail("deveria ter sido lancado uma exceção na divisao");
+		} catch (ArithmeticException e) {
+			Assertions.assertEquals("/ by zero", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void deveLancarExcecaoQuandoDividirPorZero_Junit5() {
+		ArithmeticException exception = Assertions.assertThrows(ArithmeticException.class, () -> {			
+			float resultado = 10/0;
+		});
+		
+		Assertions.assertEquals("/ by zero", exception.getMessage());
+	}
 	
 }
