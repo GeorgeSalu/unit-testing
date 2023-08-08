@@ -6,7 +6,17 @@
   
   <properties>
 	  <java.version>11</java.version>
+	  <junit.version>5.9.3</junit.version>
 	  <maven.compiler.source>${java.version}</maven.compiler.source>
 	  <maven.compiler.target>${java.version}</maven.compiler.target>
   </properties>
+  
+  <dependencies>
+	  <dependency>
+		  <groupId>org.junit.jupiter</groupId>
+		  <artifactId>junit-jupiter-api</artifactId>
+		  <version>${junit.version}</version>
+		  <scope>test</scope>
+	  </dependency>
+  </dependencies>
 </project>
