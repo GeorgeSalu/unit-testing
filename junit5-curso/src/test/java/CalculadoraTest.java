@@ -55,4 +55,13 @@ public class CalculadoraTest {
 		Assertions.assertEquals(3.33, resultado, 0.01);
 	}
 	
+	@Test
+	public void deveRetornarZeroComNumeradorZeroNaDivisao() {
+		Calculadora calc = new Calculadora();
+		float resultado = calc.dividir(0, 3);
+		
+		Assertions.assertEquals(0, resultado);
+	}
+	
+	
 }
