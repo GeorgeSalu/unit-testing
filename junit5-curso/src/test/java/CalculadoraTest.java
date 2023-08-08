@@ -31,4 +31,28 @@ public class CalculadoraTest {
 		Assertions.assertNotNull(s1);
 	}
 	
+	@Test
+	public void deveRetornarNumeroInteiroNaDivisao() {
+		Calculadora calc = new Calculadora();
+		float resultado = calc.dividir(6, 2);
+		
+		Assertions.assertEquals(3, resultado);
+	}
+	
+	@Test
+	public void deveRetornarNumeroNegativoNaDivisao() {
+		Calculadora calc = new Calculadora();
+		float resultado = calc.dividir(6, -2);
+		
+		Assertions.assertEquals(-3, resultado);
+	}
+	
+	@Test
+	public void deveRetornarNumeroDecimalNaDivisao() {
+		Calculadora calc = new Calculadora();
+		float resultado = calc.dividir(10, 3);
+		
+		Assertions.assertEquals(3.33, resultado, 0.01);
+	}
+	
 }
