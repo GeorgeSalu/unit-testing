@@ -3,8 +3,15 @@ package br.com.barriga.domain;
 import static br.com.barriga.domain.builders.ContaBuilder.umaConta;
 import static br.com.barriga.domain.builders.UsuarioBuilder.umUsuario;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import br.com.barriga.domain.exceptions.ValidationException;
 
 public class ContaTest {
 
@@ -19,6 +26,21 @@ public class ContaTest {
 				() -> Assertions.assertEquals(umUsuario().agora(), conta.usuario())
 		);
 		
+	}
+	
+	@ParameterizedTest(name = "[{index}] = {3}")
+	@MethodSource(value = "dataProvider")
+	public void deveRejeitarContaInvalida(Long id,String nome,Usuario usuario,String mensagem) {
+		String errorMessage = Assertions.assertThrows(ValidationException.class, () -> 
+			umaConta().comId(id).comNome(nome).comUsuario(usuario).agora()
+		).getMessage();
+	}
+	
+	private static Stream<Arguments> dataProvider() {
+		return Stream.of(
+			Arguments.of(1l, null, umUsuario().agora(), "Nome é obrigatorio"),
+			Arguments.of(1l, "conta valida", null, "Usuario é obrigatorio")
+		);
 	}
 	
 }
