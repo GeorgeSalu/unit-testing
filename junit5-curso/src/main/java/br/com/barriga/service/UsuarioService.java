@@ -1,15 +1,18 @@
 package br.com.barriga.service;
 
 import br.com.barriga.domain.Usuario;
+import br.com.barriga.service.repository.UsuarioRepository;
 
 public class UsuarioService {
 
-	public Usuario salvar(Usuario usuario) {
-		// conectar com o banco 
-		// preparar sql
-		// executar a consulta 
-		// obter o usuario persistido
-		return usuario;
+	private UsuarioRepository repository;
+
+	public UsuarioService(UsuarioRepository repository) {
+		this.repository = repository;
 	}
-	
+
+	public Usuario salvar(Usuario usuario) {
+		return repository.salvar(usuario);
+	}
+
 }
