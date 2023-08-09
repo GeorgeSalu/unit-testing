@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import br.com.barriga.domain.Conta;
+
 import static java.lang.String.format;
 
 
@@ -138,6 +140,6 @@ public class BuilderMaster {
 
 	public static void main(String[] args) {
 		BuilderMaster master = new BuilderMaster();
-		master.gerarCodigoClasse(null);
+		master.gerarCodigoClasse(Conta.class);
 	}
 }
