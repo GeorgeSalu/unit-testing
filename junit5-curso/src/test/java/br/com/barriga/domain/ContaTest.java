@@ -31,9 +31,9 @@ public class ContaTest {
 	@ParameterizedTest(name = "[{index}] = {3}")
 	@MethodSource(value = "dataProvider")
 	public void deveRejeitarContaInvalida(Long id,String nome,Usuario usuario,String mensagem) {
-		String errorMessage = Assertions.assertThrows(ValidationException.class, () -> 
+		Assertions.assertThrows(ValidationException.class, () -> 
 			umaConta().comId(id).comNome(nome).comUsuario(usuario).agora()
-		).getMessage();
+		);
 	}
 	
 	private static Stream<Arguments> dataProvider() {
