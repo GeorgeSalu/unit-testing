@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import br.com.barriga.domain.exceptions.ValidationException;
@@ -55,11 +56,7 @@ public class UsuarioTest {
 	}
 	
 	@ParameterizedTest(name = "[{index}] - {4}")
-	@CsvSource(value = {
-			"1, NULL, user@mail.com, 12345, Nome é obrigatorio",
-			"1, nome usuario, NULL, 12345, Email é obrigatorio",
-			"1, nome usuario, user@mail.com, NULL, Senha é obrigatorio"
-	}, nullValues = "NULL")
+	@CsvFileSource(files = "src/test/resources/camposObrigatoriosUsario.csv", nullValues = "NULL", numLinesToSkip = 1)
 	public void deveValidarCamposObrigatorios(Long id,String nome,String email,String senha,String mensagem) {
 		ValidationException ex = Assertions.assertThrows(ValidationException.class, () -> {			
 			umUsuario().comId(id).comNome(nome).comEmail(email).comSenha(senha).agora();
