@@ -7,6 +7,6 @@ import br.com.barriga.domain.Usuario;
 public interface UsuarioRepository {
 
 	Usuario salvar(Usuario usuario);
-	Optional<Usuario> getUsarioByEmail(String email);
+	Optional<Usuario> getUserByEmail(String email);
 	
 }

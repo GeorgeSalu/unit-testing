@@ -36,14 +36,14 @@ public class UsuarioServiceTest {
 		UsuarioRepository repository = mock(UsuarioRepository.class);
 		service = new UsuarioService(repository);
 		
-		when(repository.getUsarioByEmail("mail@mail.com"))
+		when(repository.getUserByEmail("mail@mail.com"))
 				.thenReturn(Optional.of(UsuarioBuilder.umUsuario().agora()), Optional.of(UsuarioBuilder.umUsuario().agora()));
 		
 		Optional<Usuario> user = service.getUserByEmail("mail@mail.com");
 		Assertions.assertTrue(user.isPresent());
 		
-		verify(repository, times(1)).getUsarioByEmail("mail@mail.com");
-		verify(repository, never()).getUsarioByEmail("outro@mail.com");
+		verify(repository, times(1)).getUserByEmail("mail@mail.com");
+		verify(repository, never()).getUserByEmail("outro@mail.com");
 		verifyNoMoreInteractions(repository);
 	}
 	
@@ -54,7 +54,7 @@ public class UsuarioServiceTest {
 		
 		Usuario userToSave = umUsuario().comId(null).agora();
 		
-		when(repository.getUsarioByEmail(userToSave.email()))
+		when(repository.getUserByEmail(userToSave.email()))
 			.thenReturn(Optional.empty());
 		when(repository.salvar(userToSave))
 			.thenReturn(umUsuario().agora());
@@ -64,7 +64,7 @@ public class UsuarioServiceTest {
 		
 		Assertions.assertNotNull(savedUser.id());
 		
-		verify(repository).getUsarioByEmail(userToSave.email());
+		verify(repository).getUserByEmail(userToSave.email());
 		verify(repository).salvar(userToSave);
 	}
 	

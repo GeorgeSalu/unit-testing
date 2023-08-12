@@ -15,14 +15,14 @@ public class UsuarioService {
 	}
 
 	public Usuario salvar(Usuario usuario) {
-		repository.getUsarioByEmail(usuario.email()).ifPresent(user -> {
+		repository.getUserByEmail(usuario.email()).ifPresent(user -> {
 			throw new ValidationException(String.format("Usuario %s ja cadastrado!", usuario.email()));
 		});;
 		return repository.salvar(usuario);
 	}
 	
 	public Optional<Usuario> getUserByEmail(String email) {
-		return repository.getUsarioByEmail(email);
+		return repository.getUserByEmail(email);
 	}
 
 }

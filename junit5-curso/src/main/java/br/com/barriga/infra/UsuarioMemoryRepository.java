@@ -26,7 +26,7 @@ public class UsuarioMemoryRepository implements UsuarioRepository {
 	}
 
 	@Override
-	public Optional<Usuario> getUsarioByEmail(String email) {
+	public Optional<Usuario> getUserByEmail(String email) {
 		return users.stream()
 					.filter(user -> user.email().equalsIgnoreCase(email))
 					.findFirst();
