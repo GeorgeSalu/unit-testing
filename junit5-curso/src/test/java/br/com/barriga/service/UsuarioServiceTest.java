@@ -19,7 +19,6 @@ public class UsuarioServiceTest {
 		UsuarioRepository repository = Mockito.mock(UsuarioRepository.class);
 		service = new UsuarioService(repository);
 		
-		Mockito.when(repository.getUsarioByEmail("mail@mail.com")).thenReturn(Optional.empty());
 		
 		Optional<Usuario> user = service.getUserByEmail("mail@mail.com");
 		Assertions.assertTrue(user.isEmpty());
@@ -34,7 +33,11 @@ public class UsuarioServiceTest {
 				.thenReturn(Optional.of(UsuarioBuilder.umUsuario().agora()));
 		
 		Optional<Usuario> user = service.getUserByEmail("mail@mail.com");
-		Assertions.assertFalse(user.isEmpty());
+		Assertions.assertTrue(user.isPresent());
+		
+		Mockito.verify(repository, Mockito.times(1)).getUsarioByEmail("mail@mail.com");
+		Mockito.verify(repository, Mockito.never()).getUsarioByEmail("outro@mail.com");
+		Mockito.verifyNoMoreInteractions(repository);
 	}
 	
 }
