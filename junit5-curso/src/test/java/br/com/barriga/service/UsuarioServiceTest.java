@@ -36,7 +36,7 @@ public class UsuarioServiceTest {
 		service = new UsuarioService(repository);
 		
 		when(repository.getUsarioByEmail("mail@mail.com"))
-				.thenReturn(Optional.of(UsuarioBuilder.umUsuario().agora()));
+				.thenReturn(Optional.of(UsuarioBuilder.umUsuario().agora()), Optional.of(UsuarioBuilder.umUsuario().agora()));
 		
 		Optional<Usuario> user = service.getUserByEmail("mail@mail.com");
 		Assertions.assertTrue(user.isPresent());
