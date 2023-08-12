@@ -1,11 +1,9 @@
 package br.com.barriga.service;
 
 import static br.com.barriga.domain.builders.UsuarioBuilder.umUsuario;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -13,6 +11,9 @@ import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import br.com.barriga.domain.Usuario;
 import br.com.barriga.domain.builders.UsuarioBuilder;
@@ -20,13 +21,15 @@ import br.com.barriga.service.repository.UsuarioRepository;
 
 public class UsuarioServiceTest {
 
+	@InjectMocks
 	private UsuarioService service;
+	
+	@Mock
 	private UsuarioRepository repository;
 	
 	@BeforeEach
 	public void setup() {
-		repository = mock(UsuarioRepository.class);
-		service = new UsuarioService(repository);
+		MockitoAnnotations.openMocks(this);
 	}
 	
 	@Test
