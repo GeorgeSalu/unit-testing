@@ -9,16 +9,17 @@ import static org.mockito.Mockito.when;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.barriga.domain.Usuario;
 import br.com.barriga.domain.builders.UsuarioBuilder;
 import br.com.barriga.service.repository.UsuarioRepository;
 
+@ExtendWith(MockitoExtension.class)
 public class UsuarioServiceTest {
 
 	@InjectMocks
@@ -27,10 +28,6 @@ public class UsuarioServiceTest {
 	@Mock
 	private UsuarioRepository repository;
 	
-	@BeforeEach
-	public void setup() {
-		MockitoAnnotations.openMocks(this);
-	}
 	
 	@Test
 	public void deveRetornarEmptyQuandoUsuarioInexistente() {
