@@ -1,10 +1,16 @@
 package br.com.barriga.service;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import br.com.barriga.domain.Usuario;
 import br.com.barriga.domain.builders.UsuarioBuilder;
@@ -16,7 +22,7 @@ public class UsuarioServiceTest {
 	
 	@Test
 	public void deveRetornarEmptyQuandoUsuarioInexistente() {
-		UsuarioRepository repository = Mockito.mock(UsuarioRepository.class);
+		UsuarioRepository repository = mock(UsuarioRepository.class);
 		service = new UsuarioService(repository);
 		
 		
@@ -26,18 +32,18 @@ public class UsuarioServiceTest {
 	
 	@Test
 	public void deveRetornarUsuarioPorEmail() {
-		UsuarioRepository repository = Mockito.mock(UsuarioRepository.class);
+		UsuarioRepository repository = mock(UsuarioRepository.class);
 		service = new UsuarioService(repository);
 		
-		Mockito.when(repository.getUsarioByEmail("mail@mail.com"))
+		when(repository.getUsarioByEmail("mail@mail.com"))
 				.thenReturn(Optional.of(UsuarioBuilder.umUsuario().agora()));
 		
 		Optional<Usuario> user = service.getUserByEmail("mail@mail.com");
 		Assertions.assertTrue(user.isPresent());
 		
-		Mockito.verify(repository, Mockito.times(1)).getUsarioByEmail("mail@mail.com");
-		Mockito.verify(repository, Mockito.never()).getUsarioByEmail("outro@mail.com");
-		Mockito.verifyNoMoreInteractions(repository);
+		verify(repository, times(1)).getUsarioByEmail("mail@mail.com");
+		verify(repository, never()).getUsarioByEmail("outro@mail.com");
+		verifyNoMoreInteractions(repository);
 	}
 	
 }
