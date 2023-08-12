@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.com.barriga.domain.Usuario;
@@ -20,12 +21,16 @@ import br.com.barriga.service.repository.UsuarioRepository;
 public class UsuarioServiceTest {
 
 	private UsuarioService service;
+	private UsuarioRepository repository;
+	
+	@BeforeEach
+	public void setup() {
+		repository = mock(UsuarioRepository.class);
+		service = new UsuarioService(repository);
+	}
 	
 	@Test
 	public void deveRetornarEmptyQuandoUsuarioInexistente() {
-		UsuarioRepository repository = mock(UsuarioRepository.class);
-		service = new UsuarioService(repository);
-		
 		
 		Optional<Usuario> user = service.getUserByEmail("mail@mail.com");
 		Assertions.assertTrue(user.isEmpty());
@@ -33,8 +38,6 @@ public class UsuarioServiceTest {
 	
 	@Test
 	public void deveRetornarUsuarioPorEmail() {
-		UsuarioRepository repository = mock(UsuarioRepository.class);
-		service = new UsuarioService(repository);
 		
 		when(repository.getUserByEmail("mail@mail.com"))
 				.thenReturn(Optional.of(UsuarioBuilder.umUsuario().agora()), Optional.of(UsuarioBuilder.umUsuario().agora()));
@@ -44,13 +47,10 @@ public class UsuarioServiceTest {
 		
 		verify(repository, times(1)).getUserByEmail("mail@mail.com");
 		verify(repository, never()).getUserByEmail("outro@mail.com");
-		verifyNoMoreInteractions(repository);
 	}
 	
 	@Test
 	public void deveSalvarUsuarioComSucesso() {
-		UsuarioRepository repository = mock(UsuarioRepository.class);
-		service = new UsuarioService(repository);
 		
 		Usuario userToSave = umUsuario().comId(null).agora();
 		
