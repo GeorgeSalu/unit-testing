@@ -17,6 +17,8 @@ import org.mockito.quality.Strictness;
 
 import br.com.barriga.domain.Conta;
 import br.com.barriga.domain.exceptions.ValidationException;
+import br.com.barriga.service.external.ContaEvent;
+import br.com.barriga.service.external.ContaEvent.EventType;
 import br.com.barriga.service.repository.ContaRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,11 +31,15 @@ public class ContaServiceTest {
 	@Mock
 	private ContaRepository repository;
 	
+	@Mock
+	private ContaEvent event;
+	
 	@Test
 	public void deveSalvarPrimeiraContaComSucesso() {
 		Conta contaToSave = umaConta().comId(null).agora();
 		
 		Mockito.when(repository.salvar(contaToSave)).thenReturn(umaConta().agora());
+		Mockito.doNothing().when(event).dispatch(umaConta().agora(), EventType.CREATED);
 		
 		Conta savedConta = service.salvar(contaToSave);
 		

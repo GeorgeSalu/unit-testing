@@ -1,5 +1,7 @@
 package br.com.barriga.domain;
 
+import java.util.Objects;
+
 import br.com.barriga.domain.exceptions.ValidationException;
 
 public class Conta {
@@ -29,4 +31,27 @@ public class Conta {
 		return usuario;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, nome, usuario);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Conta other = (Conta) obj;
+		return Objects.equals(id, other.id) && Objects.equals(nome, other.nome)
+				&& Objects.equals(usuario, other.usuario);
+	}
+
+	@Override
+	public String toString() {
+		return "Conta [id=" + id + ", nome=" + nome + ", usuario=" + usuario + "]";
+	}
+	
 }
