@@ -1,6 +1,7 @@
 package br.com.barriga.domain;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Transacao {
 
@@ -59,4 +60,23 @@ public class Transacao {
 		this.status = status;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(conta, data, descricao, id, status, valor);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Transacao other = (Transacao) obj;
+		return Objects.equals(conta, other.conta) && Objects.equals(data, other.data)
+				&& Objects.equals(descricao, other.descricao) && Objects.equals(id, other.id)
+				&& Objects.equals(status, other.status) && Objects.equals(valor, other.valor);
+	}
+	
 }
