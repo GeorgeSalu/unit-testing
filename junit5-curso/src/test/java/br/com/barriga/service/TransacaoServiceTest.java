@@ -19,29 +19,27 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.barriga.domain.Conta;
 import br.com.barriga.domain.Transacao;
 import br.com.barriga.domain.exceptions.ValidationException;
-import br.com.barriga.service.external.ClockService;
 import br.com.barriga.service.repository.TransacaoDao;
 
 @ExtendWith(MockitoExtension.class)
 public class TransacaoServiceTest {
 
 	@InjectMocks
+	@Spy
 	private TransacaoService service;
 	
 	@Mock
 	private TransacaoDao dao;
-	
-	@Mock
-	private ClockService clock;
 
 	@BeforeEach
 	public void setup() {
-		Mockito.when(clock.getCurrentTime()).thenReturn(LocalDateTime.of(2023, 1,1,4,30,15));
+		Mockito.when(service.getTime()).thenReturn(LocalDateTime.of(2023, 1,1,4,30,15));
 	}
 	
 	@Test

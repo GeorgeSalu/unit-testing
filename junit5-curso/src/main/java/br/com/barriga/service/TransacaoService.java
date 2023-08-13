@@ -1,17 +1,17 @@
 package br.com.barriga.service;
 
+import java.time.LocalDateTime;
+
 import br.com.barriga.domain.Transacao;
 import br.com.barriga.domain.exceptions.ValidationException;
-import br.com.barriga.service.external.ClockService;
 import br.com.barriga.service.repository.TransacaoDao;
 
 public class TransacaoService {
 
 	private TransacaoDao dao;
-	private ClockService clock;
 	
 	public Transacao salvar(Transacao transacao) {
-		if(clock.getCurrentTime().getHour() > 10) {
+		if(getTime().getHour() > 10) {
 			throw new RuntimeException("tente novamente amanha");
 		}
 		if(transacao.getDescricao() == null) throw new ValidationException("Descricao inexistente");
@@ -21,5 +21,9 @@ public class TransacaoService {
 		if(transacao.getStatus() == null) transacao.setStatus(false);
 		
 		return dao.salvar(transacao);
+	}
+	
+	protected LocalDateTime getTime() {
+		return LocalDateTime.now();
 	}
 }
