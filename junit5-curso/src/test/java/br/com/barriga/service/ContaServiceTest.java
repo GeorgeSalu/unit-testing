@@ -3,6 +3,7 @@ package br.com.barriga.service;
 import static br.com.barriga.domain.builders.ContaBuilder.umaConta;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Assertions;
@@ -38,20 +39,20 @@ public class ContaServiceTest {
 	public void deveSalvarPrimeiraContaComSucesso() throws Exception {
 		Conta contaToSave = umaConta().comId(null).agora();
 		
-		Mockito.when(repository.salvar(contaToSave)).thenReturn(umaConta().agora());
+		Mockito.when(repository.salvar(Mockito.any(Conta.class))).thenReturn(umaConta().agora());
 		Mockito.doNothing().when(event).dispatch(umaConta().agora(), EventType.CREATED);
 		
 		Conta savedConta = service.salvar(contaToSave);
 		
 		Assertions.assertNotNull(savedConta.id());
-		
+		Mockito.verify(repository).salvar(Mockito.any());
 	}
 
 	@Test
 	public void deveSalvarSegundaContaComSucesso() {
 		Conta contaToSave = umaConta().comId(null).agora();
 		when(repository.obterContasPorUsuario(contaToSave.usuario().id())).thenReturn(Arrays.asList(umaConta().comNome("outr conta").agora()));
-		Mockito.when(repository.salvar(contaToSave)).thenReturn(umaConta().agora());
+		Mockito.when(repository.salvar(Mockito.any(Conta.class))).thenReturn(umaConta().agora());
 		
 		Conta savedConta = service.salvar(contaToSave);
 		Assertions.assertNotNull(savedConta.id());
@@ -70,7 +71,7 @@ public class ContaServiceTest {
 	public void naoDeveManterContarSemEvento() throws Exception {
 		Conta contaToSave = umaConta().comId(null).agora();
 		Conta contaSalva = umaConta().agora();
-		Mockito.when(repository.salvar(contaToSave)).thenReturn(contaSalva);
+		Mockito.when(repository.salvar(Mockito.any(Conta.class))).thenReturn(contaSalva);
 		Mockito.doThrow(new Exception("falha catastrofica"))
 			.when(event).dispatch(contaSalva, EventType.CREATED);
 		
