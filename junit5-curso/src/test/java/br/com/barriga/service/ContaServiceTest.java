@@ -35,7 +35,7 @@ public class ContaServiceTest {
 	private ContaEvent event;
 	
 	@Test
-	public void deveSalvarPrimeiraContaComSucesso() {
+	public void deveSalvarPrimeiraContaComSucesso() throws Exception {
 		Conta contaToSave = umaConta().comId(null).agora();
 		
 		Mockito.when(repository.salvar(contaToSave)).thenReturn(umaConta().agora());
@@ -64,6 +64,20 @@ public class ContaServiceTest {
 		
 		String mensagem = Assertions.assertThrows(ValidationException.class, () -> service.salvar(contaToSave)).getMessage();
 		Assertions.assertEquals("usuario ja possui uma conta com este nome", mensagem);
+	}
+	
+	@Test
+	public void naoDeveManterContarSemEvento() throws Exception {
+		Conta contaToSave = umaConta().comId(null).agora();
+		Conta contaSalva = umaConta().agora();
+		Mockito.when(repository.salvar(contaToSave)).thenReturn(contaSalva);
+		Mockito.doThrow(new Exception("falha catastrofica"))
+			.when(event).dispatch(contaSalva, EventType.CREATED);
+		
+		String mensagem = Assertions.assertThrows(Exception.class, () -> service.salvar(contaToSave)).getMessage();
+		Assertions.assertEquals("falha na criacao da conta, tente novamente", mensagem);
+		
+		Mockito.verify(repository).delete(contaSalva);
 	}
 	
 }

@@ -26,7 +26,12 @@ public class ContaService {
 				
 		});
 		Conta contaPersistida = repository.salvar(conta);
-		event.dispatch(contaPersistida, EventType.CREATED);
+		try {
+			event.dispatch(contaPersistida, EventType.CREATED);
+		} catch (Exception e) {
+			repository.delete(contaPersistida);
+			throw new RuntimeException("falha na criacao da conta, tente novamente");
+		}
 		return repository.salvar(conta);
 	}
 }
