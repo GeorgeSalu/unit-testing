@@ -10,9 +10,8 @@ import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Assumptions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIf;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -24,10 +23,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.barriga.domain.Conta;
 import br.com.barriga.domain.Transacao;
-import br.com.barriga.domain.builders.ContaBuilder;
 import br.com.barriga.domain.exceptions.ValidationException;
 import br.com.barriga.service.repository.TransacaoDao;
 
+@EnabledIf(value = "isHoraValida")
 @ExtendWith(MockitoExtension.class)
 public class TransacaoServiceTest {
 
@@ -36,11 +35,6 @@ public class TransacaoServiceTest {
 	
 	@Mock
 	private TransacaoDao dao;
-
-	@BeforeEach
-	public void checkTime() {
-		Assumptions.assumeTrue(LocalDateTime.now().getHour() < 10);
-	}
 	
 	@Test
 	public void deveSalvarTransacaoValida() {
@@ -80,6 +74,10 @@ public class TransacaoServiceTest {
 				Arguments.of(1l, "Descricao", 10D, null, umaConta().agora(), true, "Data inexistente"),
 				Arguments.of(1l, "Descricao", 10D, LocalDate.now(), null, true, "Conta inexistente")
 				);
+	}
+	
+	public static boolean isHoraValida() {
+		return LocalDateTime.now().getHour() > 10;
 	}
 }
 
