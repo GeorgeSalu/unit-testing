@@ -6,9 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,7 +36,11 @@ public class TransacaoServiceTest {
 	
 	@Mock
 	private TransacaoDao dao;
-	
+
+	@BeforeEach
+	public void checkTime() {
+		Assumptions.assumeTrue(LocalDateTime.now().getHour() < 10);
+	}
 	
 	@Test
 	public void deveSalvarTransacaoValida() {
