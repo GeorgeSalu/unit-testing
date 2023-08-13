@@ -4,14 +4,13 @@ import static br.com.barriga.domain.builders.ContaBuilder.umaConta;
 import static br.com.barriga.domain.builders.TransacaoBuilder.umTransacao;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,14 +18,13 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedConstruction;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.barriga.domain.Conta;
 import br.com.barriga.domain.Transacao;
 import br.com.barriga.domain.exceptions.ValidationException;
+import br.com.barriga.service.external.ClockService;
 import br.com.barriga.service.repository.TransacaoDao;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,37 +36,30 @@ public class TransacaoServiceTest {
 	@Mock
 	private TransacaoDao dao;
 	
+	@Mock
+	private ClockService clock;
+
+	@BeforeEach
+	public void setup() {
+		Mockito.when(clock.getCurrentTime()).thenReturn(LocalDateTime.of(2023, 1,1,4,30,15));
+	}
+	
 	@Test
 	public void deveSalvarTransacaoValida() {
 		Transacao transacaoParaSalvar = umTransacao().comId(null).agora();
 		Mockito.when(dao.salvar(transacaoParaSalvar)).thenReturn(umTransacao().agora());
 		
-		LocalDateTime dataDesejada = LocalDateTime.of(2023, 1, 1, 4, 30, 38);
-		
-		System.out.println(dataDesejada);
-		
-		try(MockedConstruction<Date> date = Mockito.mockConstruction(Date.class, 
-					(mock, context) -> {when(mock.getHours()).thenReturn(10);}
-				)) {
-//			ldt.when(() -> LocalDateTime.now()).thenReturn(dataDesejada);
-			
-			Transacao transacaoSalva = service.salvar(transacaoParaSalvar);
-			Assertions.assertNotNull(transacaoSalva.getId());
-			Assertions.assertAll("Transacao", 
-					() -> assertEquals(1l, transacaoSalva.getId()),
-					() -> assertEquals("Transacao valida", transacaoSalva.getDescricao()),
-					() -> {
-						assertAll("Conta", 
-								() -> assertEquals("Conta Valida", transacaoSalva.getConta().nome())
-						);
-					}
-			);
-			
-			//ldt.verify(() -> LocalDateTime.now());
-			Assertions.assertEquals(1, date.constructed().size());
-		}
-		
-		
+		Transacao transacaoSalva = service.salvar(transacaoParaSalvar);
+		Assertions.assertNotNull(transacaoSalva.getId());
+		Assertions.assertAll("Transacao", 
+				() -> assertEquals(1l, transacaoSalva.getId()),
+				() -> assertEquals("Transacao valida", transacaoSalva.getDescricao()),
+				() -> {
+					assertAll("Conta", 
+							() -> assertEquals("Conta Valida", transacaoSalva.getConta().nome())
+					);
+				}
+		);
 	}
 	
 	@ParameterizedTest(name = "{6}")
