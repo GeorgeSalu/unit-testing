@@ -46,7 +46,6 @@ public class ContaServiceTest {
 		Assertions.assertNotNull(savedConta.id());
 		
 		Mockito.verify(repository).salvar(contaCaptor.capture());
-		System.out.println(contaCaptor.getValue());
 		Assertions.assertNull(contaCaptor.getValue().id());
 		Assertions.assertTrue(contaCaptor.getValue().nome().startsWith("Conta Valida"));
 	}
