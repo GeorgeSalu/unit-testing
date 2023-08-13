@@ -11,13 +11,13 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledIf;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -26,7 +26,6 @@ import br.com.barriga.domain.Transacao;
 import br.com.barriga.domain.exceptions.ValidationException;
 import br.com.barriga.service.repository.TransacaoDao;
 
-@EnabledIf(value = "isHoraValida")
 @ExtendWith(MockitoExtension.class)
 public class TransacaoServiceTest {
 
@@ -41,17 +40,29 @@ public class TransacaoServiceTest {
 		Transacao transacaoParaSalvar = umTransacao().comId(null).agora();
 		Mockito.when(dao.salvar(transacaoParaSalvar)).thenReturn(umTransacao().agora());
 		
-		Transacao transacaoSalva = service.salvar(transacaoParaSalvar);
-		Assertions.assertNotNull(transacaoSalva.getId());
-		Assertions.assertAll("Transacao", 
-				() -> assertEquals(1l, transacaoSalva.getId()),
-				() -> assertEquals("Transacao valida", transacaoSalva.getDescricao()),
-				() -> {
-					assertAll("Conta", 
-							() -> assertEquals("Conta Valida", transacaoSalva.getConta().nome())
-					);
-				}
-		);
+		LocalDateTime dataDesejada = LocalDateTime.of(2023, 1, 1, 4, 30, 38);
+		
+		System.out.println(dataDesejada);
+		
+		try(MockedStatic<LocalDateTime> ldt = Mockito.mockStatic(LocalDateTime.class)) {
+			ldt.when(() -> LocalDateTime.now()).thenReturn(dataDesejada);
+			
+			Transacao transacaoSalva = service.salvar(transacaoParaSalvar);
+			Assertions.assertNotNull(transacaoSalva.getId());
+			Assertions.assertAll("Transacao", 
+					() -> assertEquals(1l, transacaoSalva.getId()),
+					() -> assertEquals("Transacao valida", transacaoSalva.getDescricao()),
+					() -> {
+						assertAll("Conta", 
+								() -> assertEquals("Conta Valida", transacaoSalva.getConta().nome())
+						);
+					}
+			);
+			
+			ldt.verify(() -> LocalDateTime.now());
+		}
+		
+		
 	}
 	
 	@ParameterizedTest(name = "{6}")
@@ -76,9 +87,6 @@ public class TransacaoServiceTest {
 				);
 	}
 	
-	public static boolean isHoraValida() {
-		return LocalDateTime.now().getHour() > 10;
-	}
 }
 
 
