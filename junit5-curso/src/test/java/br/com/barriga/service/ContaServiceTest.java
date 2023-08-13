@@ -8,12 +8,12 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 
 import br.com.barriga.domain.Conta;
 import br.com.barriga.domain.exceptions.ValidationException;
@@ -22,7 +22,6 @@ import br.com.barriga.service.external.ContaEvent.EventType;
 import br.com.barriga.service.repository.ContaRepository;
 
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
 public class ContaServiceTest {
 
 	@InjectMocks
@@ -34,17 +33,22 @@ public class ContaServiceTest {
 	@Mock
 	private ContaEvent event;
 	
+	@Captor
+	private ArgumentCaptor<Conta> contaCaptor;
+	
 	@Test
 	public void deveSalvarPrimeiraContaComSucesso() throws Exception {
 		Conta contaToSave = umaConta().comId(null).agora();
-		
 		Mockito.when(repository.salvar(Mockito.any(Conta.class))).thenReturn(umaConta().agora());
 		Mockito.doNothing().when(event).dispatch(umaConta().agora(), EventType.CREATED);
 		
 		Conta savedConta = service.salvar(contaToSave);
-		
 		Assertions.assertNotNull(savedConta.id());
-		Mockito.verify(repository).salvar(Mockito.any());
+		
+		Mockito.verify(repository).salvar(contaCaptor.capture());
+		System.out.println(contaCaptor.getValue());
+		Assertions.assertNull(contaCaptor.getValue().id());
+		Assertions.assertTrue(contaCaptor.getValue().nome().startsWith("Conta Valida"));
 	}
 
 	@Test

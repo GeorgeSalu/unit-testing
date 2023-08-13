@@ -18,7 +18,7 @@ public class ContaBuilder {
 
 	public static void inicializarDadosPadroes(ContaBuilder builder) {
 		builder.id = 1L;
-		builder.nome = "conta valida";
+		builder.nome = "Conta Valida";
 		builder.usuario = UsuarioBuilder.umUsuario().agora();
 	}
 
