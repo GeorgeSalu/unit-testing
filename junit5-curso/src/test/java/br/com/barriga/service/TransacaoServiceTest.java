@@ -4,9 +4,11 @@ import static br.com.barriga.domain.builders.ContaBuilder.umaConta;
 import static br.com.barriga.domain.builders.TransacaoBuilder.umTransacao;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
@@ -17,6 +19,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedConstruction;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -44,8 +47,10 @@ public class TransacaoServiceTest {
 		
 		System.out.println(dataDesejada);
 		
-		try(MockedStatic<LocalDateTime> ldt = Mockito.mockStatic(LocalDateTime.class)) {
-			ldt.when(() -> LocalDateTime.now()).thenReturn(dataDesejada);
+		try(MockedConstruction<Date> date = Mockito.mockConstruction(Date.class, 
+					(mock, context) -> {when(mock.getHours()).thenReturn(10);}
+				)) {
+//			ldt.when(() -> LocalDateTime.now()).thenReturn(dataDesejada);
 			
 			Transacao transacaoSalva = service.salvar(transacaoParaSalvar);
 			Assertions.assertNotNull(transacaoSalva.getId());
@@ -59,7 +64,8 @@ public class TransacaoServiceTest {
 					}
 			);
 			
-			ldt.verify(() -> LocalDateTime.now());
+			//ldt.verify(() -> LocalDateTime.now());
+			Assertions.assertEquals(1, date.constructed().size());
 		}
 		
 		

@@ -1,6 +1,6 @@
 package br.com.barriga.service;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import br.com.barriga.domain.Transacao;
 import br.com.barriga.domain.exceptions.ValidationException;
@@ -11,7 +11,7 @@ public class TransacaoService {
 	private TransacaoDao dao;
 	
 	public Transacao salvar(Transacao transacao) {
-		if(LocalDateTime.now().getHour() > 10) {
+		if(new Date().getHours() > 10) {
 			throw new RuntimeException("tente novamente amanha");
 		}
 		if(transacao.getDescricao() == null) throw new ValidationException("Descricao inexistente");
