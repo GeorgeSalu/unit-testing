@@ -3,7 +3,6 @@ package br.com.barriga.service;
 import static br.com.barriga.domain.builders.ContaBuilder.umaConta;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Assertions;
